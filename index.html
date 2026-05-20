@@ -541,24 +541,32 @@
             }
         }
         
-        @media (max-width: 480px) {
-            .hero-section h1 { 
-                font-size: 2rem !important; 
-            }
-            .hero-section p { 
-                font-size: 1.1rem !important; 
-            }
-            .floating-container {
-                bottom: 110px;
-                right: 15px;
-            }
-            .float-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-            }
-        }
-        
+@media (max-width: 480px) {
+    .hero-section h1 { 
+        font-size: 2rem !important; 
+    }
+    .hero-section p { 
+        font-size: 1.1rem !important; 
+    }
+    .floating-container {
+        bottom: 110px;
+        right: 15px;
+    }
+    .float-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+    .trust-badge {
+        bottom: 15px;
+        left: 10px;
+        right: 10px;
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        justify-content: center;
+        text-align: center;
+    }
+}
         /* ========== ANIMATIONS ========== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -2043,6 +2051,17 @@
     <script>
         // ========== VARIABLES GLOBALES ==========
         let currentLanguage = 'fr';
+        document.documentElement.lang = 'fr';
+document.documentElement.dir = 'ltr';
+document.getElementById('currentLang').textContent = 'FR';
+document.getElementById('currentLangMobile').textContent = 'FR';
+// تطبيق الترجمة الفرنسية
+document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    if (translations['fr'] && translations['fr'][key]) {
+        element.textContent = translations['fr'][key];
+    }
+});
 
         // ========== TRANSLATIONS COMPLÈTES (inchangées) ==========
 const translations = {
@@ -2481,12 +2500,22 @@ window.addEventListener('scroll', () => {
     progressBar.style.opacity = winScroll > 10 ? '1' : '0';
 });
         // ========== INITIALISATION ==========
-        window.onload = function() {
-            // Initialiser le filtre
-            filterOffers('all');
-            
-            // Appliquer la langue française par défaut
-            toggleLanguage();
+window.onload = function() {
+    // Initialiser le filtre
+    filterOffers('all');
+    
+    // Appliquer la langue française par défaut
+    currentLanguage = 'fr';
+    document.documentElement.lang = 'fr';
+    document.documentElement.dir = 'ltr';
+    document.getElementById('currentLang').textContent = 'FR';
+    document.getElementById('currentLangMobile').textContent = 'FR';
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations['fr'] && translations['fr'][key]) {
+            element.textContent = translations['fr'][key];
+        }
+    });
             
             // Ajouter des écouteurs pour les ancres
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
