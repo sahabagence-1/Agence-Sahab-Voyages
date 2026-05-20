@@ -2446,18 +2446,19 @@ const translations = {
             }, 100);
         }
 
-        // Changer de langue
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'fr' ? 'ar' : 'fr';
+        // ========== إعدادات اللغة ==========
+        let currentLanguage = 'fr';
+
+        // دالة تطبيق لغة محددة (تستعمل داخلياً ومن عند التحميل)
+        function applyLanguage(lang) {
+            currentLanguage = lang;
             document.documentElement.lang = currentLanguage;
             document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('mobileMenu').classList.add('hidden');
             
-            // Mettre à jour les indicateurs de langue
             document.getElementById('currentLang').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
             document.getElementById('currentLangMobile').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
             
-            // Mettre à jour tous les éléments avec data-i18n
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[currentLanguage] && translations[currentLanguage][key]) {
@@ -2465,10 +2466,15 @@ const translations = {
                 }
             });
             
-            // Mettre à jour le titre de la page
             document.title = currentLanguage === 'fr' 
                 ? 'Omra Maroc 2026 | Agence Sahab Voyages – Packages Omra au départ du Maroc' 
                 : 'عمرة 2026 من المغرب | وكالة أسفار سحاب – عروض العمرة';
+        }
+
+        // زر تبديل اللغة (يقلب فقط)
+        function toggleLanguage() {
+            const newLang = currentLanguage === 'fr' ? 'ar' : 'fr';
+            applyLanguage(newLang);
         }
 
         // IMPROVEMENT: Scroll progress bar
