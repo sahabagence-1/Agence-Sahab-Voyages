@@ -543,10 +543,10 @@
         
         @media (max-width: 480px) {
             .hero-section h1 { 
-                font-size: 1rem !important; 
+                font-size: 2.5rem !important; 
             }
             .hero-section p { 
-                font-size: 1rem !important; 
+                font-size: 1.1rem !important; 
             }
             .floating-container {
                 bottom: 110px;
@@ -2449,27 +2449,36 @@ const translations = {
         // Changer de langue
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'fr' ? 'ar' : 'fr';
-            document.documentElement.lang = currentLanguage;
-            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('mobileMenu').classList.add('hidden');
-            
-            // Mettre à jour les indicateurs de langue
-            document.getElementById('currentLang').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
-            document.getElementById('currentLangMobile').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
-            
-            // Mettre à jour tous les éléments avec data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-            
-            // Mettre à jour le titre de la page
-            document.title = currentLanguage === 'fr' 
-                ? 'Omra Maroc 2026 | Agence Sahab Voyages – Packages Omra au départ du Maroc' 
-                : 'عمرة 2026 من المغرب | وكالة أسفار سحاب – عروض العمرة';
+            // تعريف اللغة الابتدائية
+let currentLanguage = 'fr';
+
+// دالة لتطبيق لغة معينة دون عكسها
+function applyLanguage(lang) {
+    currentLanguage = lang;
+    document.documentElement.lang = currentLanguage;
+    document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+
+    document.getElementById('currentLang').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
+    document.getElementById('currentLangMobile').textContent = currentLanguage === 'fr' ? 'FR' : 'AR';
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[currentLanguage] && translations[currentLanguage][key]) {
+            element.textContent = translations[currentLanguage][key];
         }
+    });
+
+    document.title = currentLanguage === 'fr'
+        ? 'Omra Maroc 2026 | Agence Sahab Voyages – Packages Omra au départ du Maroc'
+        : 'عمرة 2026 من المغرب | وكالة أسفار سحاب – عروض العمرة';
+}
+
+// دالة التبديل اليدوي
+function toggleLanguage() {
+    const newLang = currentLanguage === 'fr' ? 'ar' : 'fr';
+    applyLanguage(newLang);
+    document.getElementById('mobileMenu').classList.add('hidden');
+}
 
         // IMPROVEMENT: Scroll progress bar
 window.addEventListener('scroll', () => {
@@ -2481,7 +2490,7 @@ window.addEventListener('scroll', () => {
     progressBar.style.opacity = winScroll > 10 ? '1' : '0';
 });
         // ========== INITIALISATION ==========
-        window.onload = function() {
+applyLanguage('fr');  // ✅ يبدأ الموقع بالفرنسية دون انقلاب
             // Initialiser le filtre
             filterOffers('all');
             
